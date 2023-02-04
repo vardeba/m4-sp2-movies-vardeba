@@ -41,7 +41,7 @@ export const ensureMovieExists = async (
     return next();
 };
 
-export const ensureMovieNameDoesNotExist = async (
+export const ensureMovieNameDoesNotExists = async (
     request: Request,
     response: Response,
     next: NextFunction
@@ -65,6 +65,20 @@ export const ensureMovieNameDoesNotExist = async (
     if (Number(queryResult.rows[0].count) > 0) {
         return response.status(409).json({
             message: "There is already a movie with this name!",
+        });
+    }
+
+    return next();
+};
+
+export const ensureBodyIsNotNull = async (
+    request: Request,
+    response: Response,
+    next: NextFunction
+): Promise<Response | void> => {
+    if (!request.body) {
+        return response.status(400).json({
+            message: "Invalid body!",
         });
     }
 

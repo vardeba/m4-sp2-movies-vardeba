@@ -7,13 +7,22 @@ import {
     retrieveMovie,
     updateMovie,
 } from "./functions";
-import { ensureMovieExists, ensureMovieNameDoesNotExist } from "./middlewares";
+import {
+    ensureBodyIsNotNull,
+    ensureMovieExists,
+    ensureMovieNameDoesNotExists,
+} from "./middlewares";
 
 const app: Application = express();
 
 app.use(express.json());
 
-app.post("/movies", ensureMovieNameDoesNotExist, createMovie);
+app.post(
+    "/movies",
+    ensureBodyIsNotNull,
+    ensureMovieNameDoesNotExists,
+    createMovie
+);
 
 app.get("/movies", listMovie);
 
@@ -23,7 +32,8 @@ app.delete("/movies/:id", ensureMovieExists, deleteMovie);
 
 app.patch(
     "/movies/:id",
-    ensureMovieNameDoesNotExist,
+    ensureBodyIsNotNull,
+    ensureMovieNameDoesNotExists,
     ensureMovieExists,
     updateMovie
 );

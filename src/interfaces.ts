@@ -13,10 +13,10 @@ export interface IMovie extends IMovieRequest {
 }
 
 export interface IPagination {
-    previousPage: string;
-    nextPage: string;
+    previousPage: string | null;
+    nextPage: string | null;
     count: number;
-    data: any;
+    data: IMovie[] | null;
 }
 
 export type MovieResult = QueryResult<IMovie>;
