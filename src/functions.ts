@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { QueryConfig, QueryResult } from "pg";
+import { QueryConfig } from "pg";
 import format from "pg-format";
 import { client } from "./database";
 import { IMovie, IMovieRequest, IPagination, MovieResult } from "./interfaces";
@@ -140,73 +140,6 @@ export const listMovie = async (
     queryTemplate = "";
     return response.status(200).json(pagination);
 };
-
-// export const listMovie = async (
-//     request: Request,
-//     response: Response
-// ): Promise<Response> => {
-//     let page = Number(request.query.page) || 1;
-
-//     let perPage = Number(request.query.perPage) || 5;
-
-//     const queryTemplate: string = `
-//         SELECT
-//             *
-//         FROM
-//             movies
-//         OFFSET $1 LIMIT $2;
-//     `;
-
-//     const queryConfig: QueryConfig = {
-//         text: queryTemplate,
-//         values: [perPage * (page - 1), perPage],
-//     };
-
-//     const queryResult: MovieResult = await client.query(queryConfig);
-
-//     const queryGetAllMovies = `
-//         SELECT
-//             *
-//         FROM
-//             movies;
-//     `;
-
-//     const queryGetAllMoviesResult: MovieResult = await client.query(
-//         queryGetAllMovies
-//     );
-
-//     const baseURL: string = `http://localhost:3000/movies/`;
-
-//     let previousPage: string | null = "";
-
-//     let nextPage: string | null = "";
-
-//     if (page === 1) {
-//         previousPage = null;
-//     } else {
-//         previousPage = `${baseURL}?page=${page - 1}&perPage${perPage}`;
-//     }
-
-//     if (
-//         Number(queryGetAllMoviesResult.rowCount) % perPage > 0 &&
-//         Number(queryGetAllMoviesResult.rowCount) / perPage > page
-//     ) {
-//         nextPage = `${baseURL}?page=${page + 1}&perPage${perPage}`;
-//     } else {
-//         nextPage = null;
-//     }
-
-//     const count: number = queryResult.rowCount;
-
-//     const pagination: IPagination = {
-//         previousPage,
-//         nextPage,
-//         count: count,
-//         data: queryResult.rows,
-//     };
-
-//     return response.status(200).json(pagination);
-// };
 
 export const retrieveMovie = async (
     request: Request,
